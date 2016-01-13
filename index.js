@@ -21,9 +21,9 @@ var bot = botListener.spawn({
     token: process.env.token
 }).startRTM();
 
-// botListener.setupWebserver(process.env.PORT,function(err,express_webserver) {
-//   botListener.createWebhookEndpoints(express_webserver);
-// });
+botListener.setupWebserver(process.env.PORT,function(err,express_webserver) {
+  botListener.createWebhookEndpoints(express_webserver);
+});
 
 var taggedMessage = 'direct_message,direct_mention,mention';
 var untaggedMessage = 'direct_message,direct_mention,mention,ambient';
