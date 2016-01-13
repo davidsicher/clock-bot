@@ -86,7 +86,7 @@ var startTimer = function(bot, message) {
             bot.reply(message,'Timer started.');
           });
         } else {
-          bot.reply(message, 'You already have a timer running.';
+          bot.reply(message, 'You already have a timer running.');
         }
     });
 }
@@ -102,7 +102,7 @@ var sayCurrentTimerTime = function(bot, message) {
         if (user.timerIsActive===true) {
           bot.reply(message,'Current timer has been running for ' + user.timerStartTime - new Date());
         } else {
-          bot.reply(message, 'You do not have a timer running.';
+          bot.reply(message, 'You do not have a timer running.');
         }
     });
 }
@@ -138,7 +138,7 @@ var sayPreviousTimerTime = function(bot, message) {
         if (user.timerIsActive===false && user.timerStartTime && user.timer.timerStopTime) {
           bot.reply(message,'Your last timer ran for ' + user.timerStartTime - user.timerStopTime);
         } else {
-          bot.reply(message, 'You have a timer running currently.';
+          bot.reply(message, 'You have a timer running currently.');
         }
     });
 }
