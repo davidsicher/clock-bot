@@ -79,7 +79,7 @@ var startTimer = function(bot, message) {
                 id: message.user
             };
         }
-        if (user.timerIsActive===false) {
+        if (user.timerIsActive==false) {
           user.timerIsActive = true;
           user.timerStartTime = new Date();
           controller.storage.users.save(user,function(err, id) {
