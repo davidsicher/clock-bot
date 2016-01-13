@@ -20,7 +20,7 @@ var publicMsg = 'direct_message,direct_mention,mention,ambient';
 var sayRollCall = function(bot, message) {
   bot.reply(message, '*tick* *tock* *tick* *tock*');
 }
-controller.hears(['roll call','role call'], publicMsg, sayRollCall);
+controller.hears(['roll call','role call'], 'direct_message,direct_mention,mention,ambient', sayRollCall);
 
 var sayCurrentTime = function(bot, message) {
   bot.reply(message, 'ding it is ' + (((new Date().getHours()+3)%13)+1) + ' oclock');
