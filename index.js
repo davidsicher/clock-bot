@@ -23,13 +23,13 @@ var sayRollCall = function(bot, message) {
 controller.hears(['roll call','role call'], publicMsg, sayRollCall);
 
 var sayCurrentTime = function(bot, message) {
-  bot.reply(message, 'ding it is ' + (((new Date().getUTCHours()+4)%13)+1) + ' oclock');
+  bot.reply(message, 'ding it is ' + (((new Date().getUTCHours()-9)%12)+1) + ' oclock');
 }
 controller.hears(['what time is it'], publicMsg, sayCurrentTime);
 
 var happyHours = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
 var sayCurrentHappyHour = function(bot, message) {
-  bot.reply(message, 'its always happy hour somewhere! right now its happy hour in: ' + happyHours[(new Date().getUTCHours()+4)%24]);
+  bot.reply(message, 'its always happy hour somewhere! right now its happy hour in: ' + happyHours[(new Date().getUTCHours()-8)%24]);
 }
 controller.hears(['drink', 'thirsty', 'happy'], publicMsg, sayCurrentHappyHour);
 
