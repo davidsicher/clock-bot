@@ -59,7 +59,7 @@ var publicMsg = 'direct_message,direct_mention,mention,ambient';
 var sayRollCall = function(bot, message) {
   bot.reply(message, '*tick* *tock* *tick* *tock*');
 }
-controller.hears(['roll call'], publicMsg, sayRollCall);
+controller.hears(['roll call','role call'], publicMsg, sayRollCall);
 
 var sayCurrentTime = function(bot, message) {
   bot.reply(message, 'ding it is ' + (((new Date().getHours()+3)%13)+1) + ' oclock');
@@ -86,7 +86,8 @@ var startTimer = function(bot, message) {
             bot.reply(message,'Timer started.');
           });
         } else {
-          bot.reply(message, 'You already have a timer running.');
+          bot.reply(message, user.timerIsActive);
+          // bot.reply(message, 'You already have a timer running.');
         }
     });
 }
