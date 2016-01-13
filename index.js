@@ -14,24 +14,24 @@ var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
-var privateMsg = 'direct_message,direct_mention,mention';
-var publicMsg = 'direct_message,direct_mention,mention,ambient';
+var taggedMsg = 'direct_message,direct_mention,mention';
+var untaggedMsg = 'direct_message,direct_mention,mention,ambient';
 
 var sayRollCall = function(bot, message) {
   bot.reply(message, '*tick* *tock* *tick* *tock*');
 }
-controller.hears(['roll call','role call'], publicMsg, sayRollCall);
+controller.hears(['roll call','role call'], untaggedMsg, sayRollCall);
 
 var sayCurrentTime = function(bot, message) {
   bot.reply(message, 'ding it is ' + (((new Date().getUTCHours()-9)%12)+1) + ' oclock');
 }
-controller.hears(['what time is it'], publicMsg, sayCurrentTime);
+controller.hears(['what time is it'], untaggedMsg, sayCurrentTime);
 
 var happyHours = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
 var sayCurrentHappyHour = function(bot, message) {
   bot.reply(message, 'its always happy hour somewhere! right now its happy hour in: ' + happyHours[(new Date().getUTCHours()-8)%24]);
 }
-controller.hears(['drink', 'thirsty', 'happy'], publicMsg, sayCurrentHappyHour);
+controller.hears(['drink', 'thirsty', 'happy'], untaggedMsg, sayCurrentHappyHour);
 
 var startTimer = function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
@@ -54,7 +54,7 @@ var startTimer = function(bot, message) {
         }
     });
 }
-controller.hears(['start timer'],privateMsg, startTimer);
+controller.hears(['start timer'],taggedMsg, startTimer);
 
 var sayCurrentTimerTime = function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
@@ -74,7 +74,7 @@ var sayCurrentTimerTime = function(bot, message) {
         }
     });
 }
-controller.hears(['current timer'], privateMsg, sayCurrentTimerTime);
+controller.hears(['current timer'], taggedMsg, sayCurrentTimerTime);
 
 var stopCurrentTimer = function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
@@ -98,7 +98,7 @@ var stopCurrentTimer = function(bot, message) {
         }
     });
 }
-controller.hears(['stop timer'], privateMsg, stopCurrentTimer);
+controller.hears(['stop timer'], taggedMsg, stopCurrentTimer);
 
 var sayPreviousTimerTime = function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
@@ -120,7 +120,7 @@ var sayPreviousTimerTime = function(bot, message) {
         }
     });
 }
-controller.hears(['previous timer'], privateMsg, sayPreviousTimerTime);
+controller.hears(['previous timer'], taggedMsg, sayPreviousTimerTime);
 
 controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
