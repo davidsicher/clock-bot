@@ -15,21 +15,21 @@ var bot = controller.spawn({
 }).startRTM();
 
 var privateMsg = 'direct_message,direct_mention,mention';
-var publicMsg = 'direct_message,direct_mention,mention,ambient';
+var publicMsg = 'ambient';
 
 var sayRollCall = function(bot, message) {
   bot.reply(message, '*tick* *tock* *tick* *tock*');
 }
-controller.hears(['roll call','role call'], 'direct_message,direct_mention,mention,ambient', sayRollCall);
+controller.hears(['roll call','role call'], publicMsg, sayRollCall);
 
 var sayCurrentTime = function(bot, message) {
-  bot.reply(message, 'ding it is ' + (((new Date().getHours()+3)%13)+1) + ' oclock');
+  bot.reply(message, 'ding it is ' + (((Math.abs(new Date().getUTCHours()-9)%13)+1) + ' oclock');
 }
 controller.hears(['what time is it'], publicMsg, sayCurrentTime);
 
 var happyHours = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
 var sayCurrentHappyHour = function(bot, message) {
-  bot.reply(message, 'its always happy hour somewhere! right now its happy hour in: ' + happyHours[new Date().getUTCHours()]);
+  bot.reply(message, 'its always happy hour somewhere! right now its happy hour in: ' + happyHours[((Math.abs(new Date().getUTCHours()-9)%24)]);
 }
 controller.hears(['drink', 'thirsty', 'happy'], publicMsg, sayCurrentHappyHour);
 
