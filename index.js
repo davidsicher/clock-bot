@@ -86,7 +86,8 @@ var startTimer = function(bot, message) {
             bot.reply(message,'Timer started.');
           });
         } else {
-          bot.reply(message, user.timerIsActive);
+          var replyMsg = Object.keys(user);
+          bot.reply(message, replyMsg);
           // bot.reply(message, 'You already have a timer running.');
         }
     });
