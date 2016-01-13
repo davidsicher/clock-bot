@@ -76,7 +76,10 @@ var startTimer = function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
         if (!user) {
             user = {
-                id: message.user
+                id: message.user,
+                timerIsActive: false,
+                timerStartTime: 0,
+                timerStopTime: 0
             };
         }
         if (user.timerIsActive==false) {
@@ -86,9 +89,7 @@ var startTimer = function(bot, message) {
             bot.reply(message,'Timer started.');
           });
         } else {
-          var replyMsg = Object.keys(user);
-          bot.reply(message, replyMsg);
-          // bot.reply(message, 'You already have a timer running.');
+          bot.reply(message, 'You already have a timer running.');
         }
     });
 }
@@ -98,7 +99,10 @@ var sayCurrentTimerTime = function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
         if (!user) {
             user = {
-                id: message.user
+                id: message.user,
+                timerIsActive: false,
+                timerStartTime: 0,
+                timerStopTime: 0
             };
         }
         if (user.timerIsActive===true) {
@@ -114,7 +118,10 @@ var stopCurrentTimer = function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
         if (!user) {
             user = {
-                id: message.user
+                id: message.user,
+                timerIsActive: false,
+                timerStartTime: 0,
+                timerStopTime: 0
             };
         }
         if (user.timerIsActive===true) {
@@ -134,7 +141,10 @@ var sayPreviousTimerTime = function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
         if (!user) {
             user = {
-                id: message.user
+                id: message.user,
+                timerIsActive: false,
+                timerStartTime: 0,
+                timerStopTime: 0
             };
         }
         if (user.timerIsActive===false && user.timerStartTime && user.timer.timerStopTime) {
