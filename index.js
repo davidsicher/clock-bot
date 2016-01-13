@@ -107,7 +107,7 @@ var sayCurrentTimerTime = function(bot, message) {
         }
         if (user.timerIsActive===true) {
           // bot.reply(message,'Current timer has been running');
-          bot.reply(message,'Current timer has been running for ' + (user.timerStartTime - new Date()).toString();
+          bot.reply(message,'Current timer has been running for ' + (user.timerStartTime - new Date()).toString());
         } else {
           bot.reply(message, 'You do not have a timer running.');
         }
