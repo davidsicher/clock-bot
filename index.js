@@ -115,7 +115,7 @@ var sayPreviousTimerTime = function(bot, message) {
           bot.reply(message,'Your last timer ran for ' + (user.timerStartTime - user.timerStopTime).toString());
         } else if(!user.timerStartTime) {
           bot.reply(message, 'You have never run a timer.');
-        }
+        } else {
           bot.reply(message, 'You have a timer running currently.');
         }
     });
