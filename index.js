@@ -23,7 +23,7 @@ var sayRollCall = function(bot, message) {
 controller.hears(['roll call','role call'], publicMsg, sayRollCall);
 
 var sayCurrentTime = function(bot, message) {
-  bot.reply(message, 'ding it is ' + (new Date().getUTCHours()) + ' oclock');
+  bot.reply(message, 'ding it is ' + new Date().getUTCHours().toString() + ' oclock');
 }
 controller.hears(['what time is it'], publicMsg, sayCurrentTime);
 
