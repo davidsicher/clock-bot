@@ -110,7 +110,7 @@ var sayPreviousTimerTime = function(bot, message) {
                 timerStopTime: 0
             };
         }
-        if (user.timerIsActive===false && user.timerStartTime && user.timer.timerStopTime) {
+        if (user.timerIsActive===false && user.timerStartTime && user.timerStopTime) {
           // bot.reply(message,'Your last timer ran');
           bot.reply(message,'Your last timer ran for ' + (user.timerStopTime - user.timerStartTime).toString() + 'ms');
         } else if(!user.timerStartTime) {
