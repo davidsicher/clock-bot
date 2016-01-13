@@ -41,6 +41,7 @@ return {
     timerIsActive: false,
     timerStartTime: 0,
     timerStopTime: 0
+  }
 };
 
 /*-------------------------------------------------------------------------------------------------------------
@@ -158,7 +159,7 @@ var testConvo = function(bot, incomingMessage) {
   bot.startConversation(incomingMessage, function(err,convo) {
     convo.say('Hello!');
     convo.say('Have a nice day!');
-  })
+  });
 }
 botListener.hears(['test convo'], untaggedMessage, testConvo);
 
