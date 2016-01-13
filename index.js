@@ -1,3 +1,10 @@
+/*-------------------------------------------------------------------
+//
+//                      Proto-bot Boilerplate
+//                        -- DO NOT EDIT --
+//
+//-----------------------------------------------------------------*/
+
 if (!process.env.token) {
     console.log('Error: Specify token in environment');
     process.exit(1);
@@ -6,135 +13,169 @@ if (!process.env.token) {
 var Botkit = require('botkit');
 var os = require('os');
 
-var controller = Botkit.slackbot({
+var botListener = Botkit.slackbot({
     debug: true,
 });
 
-var bot = controller.spawn({
+var bot = botListener.spawn({
     token: process.env.token
 }).startRTM();
 
-var taggedMsg = 'direct_message,direct_mention,mention';
-var untaggedMsg = 'direct_message,direct_mention,mention,ambient';
+botListener.setupWebserver(process.env.PORT,function(err,express_webserver) {
+  botListener.createWebhookEndpoints(express_webserver);
+});
 
-var sayRollCall = function(bot, message) {
-  bot.reply(message, '*tick* *tock* *tick* *tock*');
-}
-controller.hears(['roll call','role call'], untaggedMsg, sayRollCall);
+var taggedMessage = 'direct_message,direct_mention,mention';
+var untaggedMessage = 'direct_message,direct_mention,mention,ambient';
 
-var sayCurrentTime = function(bot, message) {
-  bot.reply(message, 'ding it is ' + (((new Date().getUTCHours()-9)%12)+1) + ' oclock');
+/*-------------------------------------------------------------------
+//
+//                     Local Storage Defaults
+//             -- PUT ANY LOCAL STORAGE OPTIONS HERE --
+//
+//-----------------------------------------------------------------*/
+
+var defaultUser = function(id) {
+return {
+    id: id,
+    timerIsActive: false,
+    timerStartTime: 0,
+    timerStopTime: 0
+};
+
+/*-------------------------------------------------------------------------------------------------------------
+//
+//                                                        Bot Logic
+//                                      -- PUT YOUR BOT'S CONVERSATION HOOKS HERE --
+//
+//                                                      Instructions:
+//
+//  1: Write your bot action and give it a name.
+//
+//     TIP: The action name must be a single word without spaces or punctuation
+//     TIP: Use a descriptive, active name like 'sayBotName'
+//
+//  || function sayBotName(bot, incomingMessage) {
+//  ||   bot.reply(incomingMessage, 'my name is protobot');
+//  || }
+//
+//  2: Tell your bot what to listen for.
+//
+//                                     (what to listen for)                (tagged or untagged) (your action name)
+//                                             |                                    |                  |
+//                                             v                                    v                  v
+//  || botListener.hears(['trigger words', 'in quotes', 'separated by commas'], untaggedMessage, behaviorName);
+//
+//
+//
+//-----------------------------------------------------------------------------------------------------------*/
+
+
+function reportForDuty(bot, incomingMessage) {
+  bot.reply(incomingMessage, '*tick* *tock* *tick* *tock*');
 }
-controller.hears(['what time is it'], untaggedMsg, sayCurrentTime);
+botListener.hears(['roll call','role call'], untaggedMessage, reportForDuty);
+
+function sayCurrentTime(bot, incomingMessage) {
+  bot.reply(incomingMessage, 'ding it is ' + (((new Date().getUTCHours()-9)%12)+1) + ' oclock');
+}
+botListener.hears(['what time is it'], untaggedMessage, sayCurrentTime);
 
 var happyHours = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
-var sayCurrentHappyHour = function(bot, message) {
-  bot.reply(message, 'its always happy hour somewhere! right now its happy hour in: ' + happyHours[(new Date().getUTCHours()-8)%24]);
+function sayCurrentHappyHour(bot, incomingMessage) {
+  bot.reply(incomingMessage, 'its always happy hour somewhere! right now its happy hour in: ' + happyHours[(new Date().getUTCHours()-8)%24]);
 }
-controller.hears(['drink', 'thirsty', 'happy'], untaggedMsg, sayCurrentHappyHour);
+botListener.hears(['drink', 'thirsty', 'happy'], untaggedMessage, sayCurrentHappyHour);
 
-var startTimer = function(bot, message) {
-    controller.storage.users.get(message.user,function(err, user) {
+function startTimer(bot, incomingMessage) {
+    botListener.storage.users.get(incomingMessage.user,function(err, user) {
         if (!user) {
-            user = {
-                id: message.user,
-                timerIsActive: false,
-                timerStartTime: 0,
-                timerStopTime: 0
-            };
+            user = defaultUser(incomingMessage.user);
         }
-        if (user.timerIsActive==false) {
+        if (user.timerIsActive===false) {
           user.timerIsActive = true;
           user.timerStartTime = new Date();
-          controller.storage.users.save(user,function(err, id) {
-            bot.reply(message,'Timer started.');
+          botListener.storage.users.save(user,function(err, id) {
+            bot.reply(incomingMessage,'Timer started.');
           });
         } else {
-          bot.reply(message, 'You already have a timer running.');
+          bot.reply(incomingMessage, 'You already have a timer running.');
         }
     });
 }
-controller.hears(['start timer'],taggedMsg, startTimer);
+botListener.hears(['start timer'],taggedMessage, startTimer);
 
-var sayCurrentTimerTime = function(bot, message) {
-    controller.storage.users.get(message.user,function(err, user) {
+function sayCurrentTimerTime(bot, incomingMessage) {
+    botListener.storage.users.get(incomingMessage.user,function(err, user) {
         if (!user) {
-            user = {
-                id: message.user,
-                timerIsActive: false,
-                timerStartTime: 0,
-                timerStopTime: 0
-            };
+            user = defaultUser(incomingMessage.user);
         }
         if (user.timerIsActive===true) {
-          // bot.reply(message,'Current timer has been running');
-          bot.reply(message,'Current timer has been running for ' + (new Date() - user.timerStartTime).toString() + 'ms');
+          bot.reply(incomingMessage,'Current timer has been running for ' + (new Date() - user.timerStartTime).toString() + 'ms');
         } else {
-          bot.reply(message, 'You do not have a timer running.');
+          bot.reply(incomingMessage, 'You do not have a timer running.');
         }
     });
 }
-controller.hears(['current timer'], taggedMsg, sayCurrentTimerTime);
+botListener.hears(['current timer'], taggedMessage, sayCurrentTimerTime);
 
-var stopCurrentTimer = function(bot, message) {
-    controller.storage.users.get(message.user,function(err, user) {
+function stopCurrentTimer(bot, incomingMessage) {
+    botListener.storage.users.get(incomingMessage.user,function(err, user) {
         if (!user) {
-            user = {
-                id: message.user,
-                timerIsActive: false,
-                timerStartTime: 0,
-                timerStopTime: 0
-            };
+            user = defaultUser(incomingMessage.user);
         }
         if (user.timerIsActive===true) {
           user.timerIsActive = false;
           user.timerStopTime = new Date();
-          controller.storage.users.save(user,function(err, id) {
-            // bot.reply(message,'Timer was stopped');
-            bot.reply(message,'Timer was stopped after ' + (user.timerStopTime - user.timerStartTime).toString() + 'ms');
+          botListener.storage.users.save(user,function(err, id) {
+            bot.reply(incomingMessage,'Timer was stopped after ' + (user.timerStopTime - user.timerStartTime).toString() + 'ms');
           });
         } else {
-          bot.reply(message, 'You do not have a timer running.');
+          bot.reply(incomingMessage, 'You do not have a timer running.');
         }
     });
 }
-controller.hears(['stop timer'], taggedMsg, stopCurrentTimer);
+botListener.hears(['stop timer'], taggedMessage, stopCurrentTimer);
 
-var sayPreviousTimerTime = function(bot, message) {
-    controller.storage.users.get(message.user,function(err, user) {
+var sayPreviousTimerTime = function(bot, incomingMessage) {
+    botListener.storage.users.get(incomingMessage.user,function(err, user) {
         if (!user) {
-            user = {
-                id: message.user,
-                timerIsActive: false,
-                timerStartTime: 0,
-                timerStopTime: 0
-            };
+            user = defaultUser(incomingMessage.user);
         }
         if (user.timerIsActive===false && user.timerStartTime && user.timerStopTime) {
-          // bot.reply(message,'Your last timer ran');
-          bot.reply(message,'Your last timer ran for ' + (user.timerStopTime - user.timerStartTime).toString() + 'ms');
+          bot.reply(incomingMessage,'Your last timer ran for ' + (user.timerStopTime - user.timerStartTime).toString() + 'ms');
         } else if(!user.timerStartTime) {
-          bot.reply(message, 'You have never run a timer.');
+          bot.reply(incomingMessage, 'You have never run a timer.');
         } else {
-          bot.reply(message, 'You have a timer running currently.');
+          bot.reply(incomingMessage, 'You have a timer running currently.');
         }
     });
 }
-controller.hears(['previous timer'], taggedMsg, sayPreviousTimerTime);
+botListener.hears(['previous timer'], taggedMessage, sayPreviousTimerTime);
 
-controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot, message) {
-    controller.storage.users.get(message.user,function(err, user) {
+
+var testConvo = function(bot, incomingMessage) {
+  bot.startConversation(incomingMessage,function(err,convo) {
+
+    convo.say('Hello!');
+    convo.say('Have a nice day!');
+
+  })
+}
+
+botListener.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot, incomingMessage) {
+    botListener.storage.users.get(incomingMessage.user,function(err, user) {
         if (user && user.name) {
-            bot.reply(message,'**cough** ' + user.name + '!!');
+            bot.reply(incomingMessage,'**cough** ' + user.name + '!!');
         } else {
-            bot.reply(message,'**cough**');
+            bot.reply(incomingMessage,'**cough**');
         }
     });
 });
 
-controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(bot, message) {
+botListener.hears(['shutdown'],'direct_message,direct_mention,mention',function(bot, incomingMessage) {
 
-    bot.startConversation(message,function(err, convo) {
+    bot.startConversation(incomingMessage,function(err, convo) {
         convo.ask('Are you sure you want me to shutdown?',[
             {
                 pattern: bot.utterances.yes,
@@ -156,8 +197,4 @@ controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(b
         }
         ]);
     });
-});
-
-controller.setupWebserver(process.env.PORT,function(err,express_webserver) {
-  controller.createWebhookEndpoints(express_webserver);
 });
