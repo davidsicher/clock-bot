@@ -68,7 +68,7 @@ var sayCurrentTimerTime = function(bot, message) {
         }
         if (user.timerIsActive===true) {
           // bot.reply(message,'Current timer has been running');
-          bot.reply(message,'Current timer has been running for ' + (user.timerStartTime - new Date()).toString());
+          bot.reply(message,'Current timer has been running for ' + (new Date() - user.timerStartTime).toString() + 'ms'));
         } else {
           bot.reply(message, 'You do not have a timer running.');
         }
@@ -91,7 +91,7 @@ var stopCurrentTimer = function(bot, message) {
           user.timerStopTime = new Date();
           controller.storage.users.save(user,function(err, id) {
             // bot.reply(message,'Timer was stopped');
-            bot.reply(message,'Timer was stopped after ' + (user.timerStartTime - user.timerStopTime).toString());
+            bot.reply(message,'Timer was stopped after ' + (user.timerStopTime).toString() - user.timerStartTime) + 'ms';
           });
         } else {
           bot.reply(message, 'You do not have a timer running.');
@@ -112,7 +112,7 @@ var sayPreviousTimerTime = function(bot, message) {
         }
         if (user.timerIsActive===false && user.timerStartTime && user.timer.timerStopTime) {
           // bot.reply(message,'Your last timer ran');
-          bot.reply(message,'Your last timer ran for ' + (user.timerStartTime - user.timerStopTime).toString());
+          bot.reply(message,'Your last timer ran for ' + (user.timerStopTime).toString() - user.timerStartTime) + 'ms';
         } else if(!user.timerStartTime) {
           bot.reply(message, 'You have never run a timer.');
         } else {
