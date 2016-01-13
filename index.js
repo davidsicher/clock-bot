@@ -64,7 +64,7 @@ controller.hears(['roll call'], publicMsg, sayRollCall);
 var sayCurrentTime = function(bot, message) {
   bot.reply(message, 'ding it is ' + (((new Date().getHours()+3)%13)+1) + ' oclock');
 }
-controller.hears(['time'], publicMsg, sayCurrentTime);
+controller.hears(['what time is it'], publicMsg, sayCurrentTime);
 
 var happyHours = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
 var sayCurrentHappyHour = function(bot, message) {
