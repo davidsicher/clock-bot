@@ -155,13 +155,13 @@ botListener.hears(['previous timer'], taggedMessage, sayPreviousTimerTime);
 
 
 var testConvo = function(bot, incomingMessage) {
-  bot.startConversation(incomingMessage,function(err,convo) {
-
+  bot.startConversation(incomingMessage, function(err,convo) {
     convo.say('Hello!');
     convo.say('Have a nice day!');
-
   })
 }
+botListener.hears(['test convo'], untaggedMessage, testConvo);
+
 
 botListener.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot, incomingMessage) {
     botListener.storage.users.get(incomingMessage.user,function(err, user) {
