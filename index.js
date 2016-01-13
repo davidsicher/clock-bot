@@ -14,45 +14,6 @@ var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
-// var webhook_url = 'https://hooks.slack.com/services/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';
-
-// function(bot, message) {
-//     var matches = message.text.match(/call me (.*)/i);
-//     var name = matches[1];
-//     controller.storage.users.get(message.user,function(err, user) {
-//         if (!user) {
-//             user = {
-//                 id: message.user,
-//             };
-//         }
-//         user.name = name;
-//         controller.storage.users.save(user,function(err, id) {
-//             bot.reply(message,'**cough** I will call you ' + user.name + ' from now on.');
-//         });
-//     });
-// }
-
-// var passInfection = function(bot, message) {
-//     controller.storage.users.get(message.user,function(err, user) {
-//         if (!user) {
-//           user = {
-//             id: message.user
-//           };
-//         }
-//         if (!user.infected) {
-//             user.infected = true;
-//             user.infectionTime = new Date();
-//             bot.reply(message,'someone was infected at ' + user.infectionTime.toUTCString());
-//             bot.reply(message,'someone was infected at ' + user.infectionTime.toUTCString());
-//         } else {
-//             // user.infected = false;
-//             bot.reply(message,'someone has been infected since ' + user.infectionTime.toUTCString());
-//         }
-//         controller.storage.users.save(user,function(err, id) {
-//             bot.reply(message,'passInfection Ended');
-//         });
-//     });
-// }
 var privateMsg = 'direct_message,direct_mention,mention';
 var publicMsg = 'direct_message,direct_mention,mention,ambient';
 
@@ -160,63 +121,6 @@ var sayPreviousTimerTime = function(bot, message) {
     });
 }
 controller.hears(['previous timer'], privateMsg, sayPreviousTimerTime);
-
-// var coughOn = function(bot, message) {
-//   var matches = message.text.match(/cough on (.*)/i);
-//   var name = matches[1];
-//   bot.reply(message,'<@' + name + '> **cough**');
-// }
-// controller.hears(['cough on (.*)'],'direct_message,direct_mention,mention,ambient', coughOn);
-
-
-// var cough = {
-//   listenType: publicMsg,
-//   listenFor: ['cough on (.*)'],
-//   action: coughOn
-// };
-
-// var time = {
-//   listenType: publicMsg,
-//   listenFor: ['time'],
-//   action: sayCurrentTime
-// };
-
-// var happyHr = {
-//   listenType: publicMsg,
-//   listenFor: ['drink', 'thirsty', 'happy'],
-//   action: sayCurrentHappyHour
-// };
-
-// var roleReply = {
-//   listenType: publicMsg,
-//   listenFor: ['role call'],
-//   action: roleCall
-// }
-
-// setInterval(function(){
-//   bot.configureIncomingWebhook({url: webhook_url});
-//   bot.sendWebhook({
-//     text: '**cough**',
-//     channel: 'general',
-//   },function(err,res) {
-//     // handle error
-//   });
-//   }, 5000);
-
-// setInterval(function(){
-//   bot.say({
-//     text: new Date().toISOString(),
-//     channel: 'C0J9Q6VPC',
-//   },function(err,res) {
-//     // handle error
-
-//   });
-//   }, 3600000);
-
-
-
-
-
 
 controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function(bot, message) {
     controller.storage.users.get(message.user,function(err, user) {
