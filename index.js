@@ -122,7 +122,7 @@ var stopCurrentTimer = function(bot, message) {
             bot.reply(message,'Timer was stopped after ' + user.timerStartTime - user.timerStopTime);
           });
         } else {
-          bot.reply(message, 'You do not have a timer running.';
+          bot.reply(message, 'You do not have a timer running.');
         }
     });
 }
