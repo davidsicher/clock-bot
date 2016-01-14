@@ -22,11 +22,25 @@ function sayCurrentTime(bot, incomingMessage) {
 }
 clockbot.addUntaggedTrigger(['what time is it'], sayCurrentTime);
 
-var happyHours = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
+var happyHourVerbs = ['ale', 'lager', 'a fifth', 'wasted', 'happy', 'hopped up', 'blasted', 'sauced', 'rum', 'wrecked', 'an appletini', 'crunk', 'mashed', 'drunk', 'islay', 'whacka', 'blitzed', 'a bad hangover', 'tossed', 'bonkers', 'marmite', 'amped', 'awful', 'crazy']
+var happyHourLocations = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
 function sayCurrentHappyHour(bot, incomingMessage) {
-  bot.reply(incomingMessage, 'its always happy hour somewhere! right now its happy hour in: ' + happyHours[(new Date().getUTCHours()-8)%24]);
+  bot.reply(incomingMessage, 'its always happy hour somewhere! right now you could be getting ' + happyHourVerbs[(new Date().getUTCHours()-8)%24] + ' + in + ' + happyHourLocations[(new Date().getUTCHours()-8)%24]);
 }
 clockbot.addUntaggedTrigger(['drink', 'thirsty', 'happy'], sayCurrentHappyHour);
+
+function sayHappyHourFromTime(bot, incomingMessage) {
+  var matches = incomingMessage.text.match(/where can I get drunk at (.*)/i);
+  var number = Number(matches[1]);
+  if (number>=0&&number<24) {
+    bot.reply(incomingMessage, 'if it was ' + number + ' oclock in LA you could be getting ' + happyHourVerbs[number] + ' in ' + happyHourLocations[number]);
+  } else {
+    bot.reply(incomingMessage, 'that isn\'t how time works');
+  }
+  // bot.reply(incomingMessage, 'its always happy hour somewhere! right now you could be getting ' + happyHourVerbs[(new Date().getUTCHours()-8)%24] + ' + in + ' + happyHourLocations[(new Date().getUTCHours()-8)%24]);
+}
+clockbot.addTaggedTrigger(['where can I get drunk if its (.*)'], sayHappyHourFromTime);
+
 
 function startTimer(bot, incomingMessage) {
     clockbot.botListener.storage.users.get(incomingMessage.user,function(err, user) {
