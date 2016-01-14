@@ -22,7 +22,7 @@ function sayCurrentTime(bot, incomingMessage) {
 }
 clockbot.addUntaggedTrigger(['what time is it'], sayCurrentTime);
 
-var happyHourVerbs = ['ale', 'lager', 'a fifth', 'wasted', 'happy', 'hopped up', 'blasted', 'sauced', 'rum', 'wrecked', 'an appletini', 'crunk', 'mashed', 'drunk', 'islay', 'whacka', 'blitzed', 'a bad hangover', 'tossed', 'bonkers', 'marmite', 'amped', 'awful', 'crazy']
+var happyHourVerbs = ['ale', 'lager', 'a fifth', 'wasted', 'happy', 'hopped up', 'blasted', 'sauced', 'rum', 'wrecked', 'an appletini', 'crunk', 'mashed', 'drunk', 'islay', 'whacka', 'blitzed', 'a bad hangover', 'tossed', 'bonkers', 'melted', 'amped', 'awful', 'crazy']
 var happyHourLocations = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
 function sayCurrentHappyHour(bot, incomingMessage) {
   bot.reply(incomingMessage, 'its always happy hour somewhere! right now you could be getting ' + happyHourVerbs[(new Date().getUTCHours()-8)%24] + ' in ' + happyHourLocations[(new Date().getUTCHours()-8)%24]);
