@@ -1,2 +1,10 @@
 # Dependency directory
 node_modules
+
+# Logs
+npm-debug.log
+
+# DS_Store
+.DS_Store
+
+.env
