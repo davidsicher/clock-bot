@@ -35,7 +35,7 @@ function sayHappyHourFromTime(bot, incomingMessage) {
   if (number>=0&&number<24) {
     bot.reply(incomingMessage, 'if it was ' + number + ' oclock in LA you could be getting ' + happyHourVerbs[number] + ' in ' + happyHourLocations[number]);
   } else {
-    bot.reply(incomingMessage, extractedNumber);
+    bot.reply(incomingMessage, 'thats not how time works');
   }
 }
 clockbot.addTaggedTrigger(['where can I get drunk if its (.*)'], sayHappyHourFromTime);
