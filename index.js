@@ -30,7 +30,7 @@ function sayCurrentHappyHour(bot, incomingMessage) {
 clockbot.addUntaggedTrigger(['drink', 'thirsty', 'happy'], sayCurrentHappyHour);
 
 function sayHappyHourFromTime(bot, incomingMessage) {
-  // var matches = incomingMessage.text.match(/where can I get drunk at (.*)/i);
+  var matches = incomingMessage.text.match(/where can I get drunk at (.*)/i);
   // var extractedNumber = Array.isArray(matches) ? matches[1] : 'failed';
   // var number = Number(extractedNumber);
   // if (number>=0&&number<24) {
