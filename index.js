@@ -31,7 +31,7 @@ clockbot.addUntaggedTrigger(['drink', 'thirsty', 'happy'], sayCurrentHappyHour);
 
 function sayHappyHourFromTime(bot, incomingMessage) {
   var matches = incomingMessage.text.split(' ');
-  var number = matches[6];
+  var number = matches[7];
   if (number>=0&&number<24) {
     bot.reply(incomingMessage, 'if it was ' + number + ' oclock in LA you could be getting ' + happyHourVerbs[number] + ' in ' + happyHourLocations[number]);
   } else {
