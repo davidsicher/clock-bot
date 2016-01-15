@@ -18,14 +18,14 @@ return {
 };
 
 function sayCurrentTime(bot, incomingMessage) {
-  bot.reply(incomingMessage, 'ding it is ' + (((new Date().getUTCHours()+15)%12)+1) + ' oclock');
+  bot.reply(incomingMessage, 'ding it is ' + (((new Date().getUTCHours()-9)%12)+1) + ' oclock');
 }
 clockbot.addUntaggedTrigger(['what time is it'], sayCurrentTime);
 
-var happyHourVerbs = ['ale', 'lager', 'a fifth', 'wasted', 'happy', 'hopped up', 'blasted', 'sauced', 'rum', 'wrecked', 'an appletini', 'crunk', 'mashed', 'drunk', 'islay', 'whacka', 'blitzed', 'a bad hangover', 'tossed', 'bonkers', 'melted', 'amped', 'awful', 'crazy']
-var happyHourLocations = ['Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo', 'Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati']
+var happyHourVerbs = ['rum', 'wrecked', 'an appletini', 'crunk', 'mashed', 'drunk', 'islay', 'whacka', 'blitzed', 'a bad hangover', 'tossed', 'bonkers', 'melted', 'amped', 'awful', 'crazy', 'ale', 'lager', 'a fifth', 'wasted', 'happy', 'hopped up', 'blasted', 'sauced']
+var happyHourLocations = ['Rio de Janeiro', 'Reykjavik', 'Algiers', 'Cairo', 'Minsk', 'Dubai', 'Islamabad', 'Dhaka', 'Bangkok', 'Beijing', 'Tokyo', 'Brisbane', 'Melbourne', 'Anadyr', 'Auckland', 'Kiritimati', 'Anchorage', 'Los Angeles', 'Phoenix', 'Winnipeg', 'Havana', 'Halifax', 'Buenos Aires', 'Sao Paulo']
 function sayCurrentHappyHour(bot, incomingMessage) {
-  bot.reply(incomingMessage, 'its always happy hour somewhere! right now you could be getting ' + happyHourVerbs[(new Date().getUTCHours()+16)%24] + ' in ' + happyHourLocations[(new Date().getUTCHours()+16)%24]);
+  bot.reply(incomingMessage, 'its always happy hour somewhere! right now you could be getting ' + happyHourVerbs[(new Date().getUTCHours()-8)%24] + ' in ' + happyHourLocations[(new Date().getUTCHours()-8)%24]);
 }
 clockbot.addUntaggedTrigger(['drink', 'thirsty', 'happy'], sayCurrentHappyHour);
 
